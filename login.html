@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      h2 { text-align: center; margin-bottom: 20px; }
+      form { display: flex; flex-direction: column; }
+      label { margin-bottom: 6px; font-weight: bold; }
+      input {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        padding: 12px;
+        background: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover { background: #218838; }
+      .message { text-align: center; font-size: 14px; }
+      .message a { color: #218838; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+
+        <button type="submit">Login</button>
+        <p class="message" id="message"></p>
+      </form>
+    </div>
+    <script>
+      const loginForm = document.getElementById("login-form");
+      const message = document.getElementById("message");
+
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
+
+        if (!registeredUser) {
+          message.innerHTML = 'No account found. <a href="register.html">Register first</a>.';
+          message.style.color = "#dc3545";
+          return;
+        }
+
+        if (email === registeredUser.email && password === registeredUser.password) {
+          message.textContent = `Welcome, ${registeredUser.fullname}! Login successful.`;
+          message.style.color = "#218838";
+          loginForm.reset();
+        } else {
+          message.textContent = "Incorrect email or password.";
+          message.style.color = "#dc3545";
+        }
+      });
+    </script>
+  </body>
+</html>
